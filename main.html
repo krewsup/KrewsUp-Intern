@@ -148,6 +148,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px 0;
+            transition: all 0.8s ease;
         }
         #details .timeline::before {
             content: '';
@@ -156,33 +157,102 @@
             left: 50%;
             width: 2px;
             height: 100%;
-            background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.3));
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), #ffffff, rgba(255, 255, 255, 0.3));
             transform: translateX(-50%);
+            transition: opacity 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
+        #details .timeline.in-view::before { opacity: 1; }
+        
+        /* Roadmap icons on the timeline */
+        #details .timeline::after {
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 3L1 9l11 6 11-6z"/><path d="M1 9v7.5l11 6 11-6V9"/></svg>') no-repeat center;
+            background-size: contain;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        
+        #details .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background-image: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.2),
+                rgba(255, 255, 255, 0.5) 25%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 1) 75%,
+                rgba(255, 255, 255, 0.8) 100%);
+            transform: translateX(-50%);
+            transition: opacity 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        /* Roadmap milestone icons */
+        .roadmap-milestone {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .roadmap-milestone:hover {
+            transform: translateX(-50%) scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+        
+        .roadmap-milestone.start { top: 0; }
+        .roadmap-milestone.middle { top: 35%; }
+        .roadmap-milestone.middle2 { top: 65%; }
+        .roadmap-milestone.end { top: 100%; }
+        
+        .roadmap-milestone i {
+            font-size: 14px;
+            color: #ffffff;
+        }
+        
         .timeline-item {
             position: relative;
             width: 50%;
             padding: 20px;
             opacity: 0;
-            transition: all 0.8s ease;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .timeline-item.in-view { opacity: 1; }
+        .timeline-item.in-view { 
+            opacity: 1; 
+            transform: translateX(0) translateY(0);
+        }
         .timeline-item:nth-child(odd) { 
             left: 0; 
-            transform: translateX(-100%);
+            transform: translateX(-50%) translateY(0); /* Slide from left to center */
         }
         .timeline-item:nth-child(even) { 
             left: 50%; 
-            transform: translateX(100%);
+            transform: translateX(50%) translateY(0); /* Slide from right to center */
         }
-        .timeline-item.in-view { transform: translateX(0); }
         .timeline-item .content {
             background: rgba(255, 255, 255, 0.07);
             padding: 25px;
             border-radius: 15px;
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .timeline-item .content:hover {
             transform: translateY(-10px);
@@ -256,9 +326,8 @@
         #cta h2:hover::after { width: 100px; }
         #cta .contact-details {
             display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-start;
+            flex-direction: column;
+            align-items: flex-start;
             gap: 10px;
             font-size: 1.4em;
             margin-top: 20px;
@@ -268,12 +337,16 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
         }
         #cta .contact-details p.in-view { opacity: 1; transform: translateY(0); }
         #cta .contact-details span.label {
             font-weight: 600;
             color: #e0e0e0;
-            margin-right: 5px;
+            margin-right: 10px;
             white-space: nowrap;
         }
         #cta .contact-details a {
@@ -313,6 +386,43 @@
             transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s;
         }
         #cta .value-proposition.in-view { opacity: 0.9; transform: translateY(0); }
+        
+        /* Enhanced value proposition with journey elements */
+        .journey-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .journey-step {
+            text-align: center;
+            width: 30%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .journey-step.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .journey-step i {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        
+        .journey-step h4 {
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 8px;
+        }
+        
+        .journey-step p {
+            font-size: 0.9em;
+            color: #cccccc;
+        }
 
         @media (max-width: 768px) {
             header { padding: 10px 15px; }
@@ -329,20 +439,67 @@
                 z-index: 999; 
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
             }
-            nav.active { display: flex; flex-direction: column; align-items: center; }
+            nav.active { 
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+            }
             nav ul { flex-direction: column; gap: 20px; }
             nav li { margin: 0; }
+            nav a { 
+                display: block; 
+                width: 100%; 
+                text-align: center; 
+            }
+            nav a:hover { transform: translateY(-2px); }
             #hero h1 { font-size: 2.5em; }
             #hero p { font-size: 1.2em; padding: 0 25px; }
             .section { padding: 60px 15px; }
-            .timeline-item { width: 100%; left: 0 !important; padding: 15px 0; }
-            .timeline-item:nth-child(even) { transform: translateX(-100%); }
+            .timeline-item { 
+                width: 100%; 
+                left: 0 !important; 
+                transform: translateX(0) !important; 
+                padding: 15px 0; 
+                opacity: 0;
+                transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                margin-bottom: 15px;
+            }
+            .timeline-item.in-view { 
+                opacity: 1; 
+                transform: translateX(0) translateY(0) !important; 
+            }
+            
+            /* Remove vertical line on mobile as requested */
+            #details .timeline::before {
+                display: none;
+            }
+            
+            /* Hide roadmap milestones on mobile */
+            .roadmap-milestone {
+                display: none;
+            }
+            
+            #details .timeline { 
+                max-width: 100%; 
+                padding: 10px 0;
+                margin-left: auto;
+                margin-right: auto;
+            }
             #cta .contact-box { padding: 30px; }
             #cta h2 { font-size: 2em; }
-            #cta .contact-details { font-size: 1.2em; flex-direction: column; align-items: flex-start; gap: 10px; }
-            #cta .contact-details p { margin: 0; }
-            #cta .contact-details span.label { margin-right: 0; }
+            #cta .contact-details { font-size: 1.2em; }
+            #cta .contact-details p { 
+                text-align: left; 
+                display: flex; 
+                flex-direction: row;
+                align-items: center;
+            }
             #cta .value-proposition { font-size: 1em; max-width: 300px; }
+            
+            .journey-step {
+                width: 100%;
+                margin-bottom: 25px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -385,6 +542,20 @@
             <div id="details-canvas"></div>
             <h2>Program Highlights</h2>
             <div class="timeline">
+                <!-- Roadmap milestone markers that show progression -->
+                <div class="roadmap-milestone start">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="roadmap-milestone middle">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="roadmap-milestone middle2">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="roadmap-milestone end">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                
                 <div class="timeline-item">
                     <div class="content">
                         <i class="fas fa-users"></i>
@@ -436,7 +607,26 @@
                     <p><span class="label">Email:</span> <a href="mailto:raghav@krewsup.com">raghav@krewsup.com</a></p>
                     <p><span class="label">Mob:</span> <a href="tel:+918296058467">+91 8296058467</a></p>
                 </div>
-                <p class="value-proposition">At KrewsUp, we add value by providing transformative IT internships that bridge the gap between academic knowledge and industry expertise, empowering students with real-world skills and career opportunities.</p>
+                <p class="value-proposition">At KrewsUp, we transform your academic knowledge into powerful industry skills through hands-on projects, expert mentorship, and real-world experiences, setting you up for career success from day one.</p>
+                
+                <!-- Journey steps to enhance value proposition -->
+                <div class="journey-steps">
+                    <div class="journey-step">
+                        <i class="fas fa-book-open"></i>
+                        <h4>Learn</h4>
+                        <p>Gain practical skills that universities don't teach</p>
+                    </div>
+                    <div class="journey-step">
+                        <i class="fas fa-project-diagram"></i>
+                        <h4>Build</h4>
+                        <p>Create portfolio-worthy projects</p>
+                    </div>
+                    <div class="journey-step">
+                        <i class="fas fa-briefcase"></i>
+                        <h4>Achieve</h4>
+                        <p>Stand out to employers with certified experience</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -445,9 +635,19 @@
     <script>
         const menuIcon = document.querySelector('.menu-icon');
         const nav = document.querySelector('nav');
+        
+        // Toggle navigation and close it when a nav link is clicked
         menuIcon.addEventListener('click', () => { 
             nav.classList.toggle('active'); 
             menuIcon.style.transform = nav.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+
+        // Close nav when a nav link is clicked
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                menuIcon.style.transform = 'rotate(0deg)';
+            });
         });
 
         function createThreeScene(containerId, type) {
@@ -459,53 +659,64 @@
             renderer.setSize(window.innerWidth, height);
             container.appendChild(renderer.domElement);
 
-            let particleSystem, snowSystem;
+            let particleSystem;
 
-            if (type === 'particles') {
-                const particleCount = 500;
+            if (type === 'helix-stars') {
+                const particleCount = 300;
                 const particles = new THREE.BufferGeometry();
                 const positions = new Float32Array(particleCount * 3);
                 const velocities = new Float32Array(particleCount * 3);
 
+                // Create helical pattern with stars
                 for (let i = 0; i < particleCount; i++) {
-                    positions[i * 3] = (Math.random() - 0.5) * 100;
-                    positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
-                    positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
-                    velocities[i * 3] = (Math.random() - 0.5) * 0.02;
-                    velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.02;
-                    velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.02;
+                    const theta = i * 0.1;
+                    const radius = 10 + Math.random() * 5;
+                    positions[i * 3] = radius * Math.cos(theta);     // x
+                    positions[i * 3 + 1] = (i / particleCount) * 20 - 10; // y (vertical spread)
+                    positions[i * 3 + 2] = radius * Math.sin(theta);     // z
+                    velocities[i * 3] = Math.random() * 0.01;
+                    velocities[i * 3 + 1] = Math.random() * 0.01;
+                    velocities[i * 3 + 2] = Math.random() * 0.01;
                 }
 
                 particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                const particleMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.4, transparent: true, opacity: 0.8 });
+                const particleMaterial = new THREE.PointsMaterial({
+                    color: 0xffffff,
+                    size: 0.3,
+                    transparent: true,
+                    opacity: 0.6
+                });
                 particleSystem = new THREE.Points(particles, particleMaterial);
                 scene.add(particleSystem);
 
+                // Add connecting lines
                 const lineGeometry = new THREE.BufferGeometry();
-                const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.2, transparent: true });
-                const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-                scene.add(lines);
+                const lineMaterial = new THREE.LineBasicMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.2
+                });
 
-                camera.position.z = 80;
-
-                let scrollY = 0;
-                window.addEventListener('scroll', () => { scrollY = window.scrollY; });
-
-                function animate() {
+                const animate = function() {
                     requestAnimationFrame(animate);
+                    
                     const positions = particleSystem.geometry.attributes.position.array;
+                    
+                    // Update particle positions
+                    for (let i = 0; i < particleCount; i++) {
+                        const theta = i * 0.1 + velocities[i * 3] * Date.now() * 0.001;
+                        const radius = 10 + Math.sin(Date.now() * 0.001) * 2;
+                        positions[i * 3] = radius * Math.cos(theta);
+                        positions[i * 3 + 1] += velocities[i * 3 + 1] * 0.1;
+                        positions[i * 3 + 2] = radius * Math.sin(theta);
 
-                    for (let i = 0; i < particleCount * 3; i += 3) {
-                        positions[i] += velocities[i];
-                        positions[i + 1] += velocities[i + 1];
-                        positions[i + 2] += velocities[i + 2];
-                        if (Math.abs(positions[i]) > 50) velocities[i] *= -1;
-                        if (Math.abs(positions[i + 1]) > 50) velocities[i + 1] *= -1;
-                        if (Math.abs(positions[i + 2]) > 50) velocities[i + 2] *= -1;
+                        // Reset vertical position if too far
+                        if (positions[i * 3 + 1] > 10) positions[i * 3 + 1] = -10;
                     }
+                    
                     particleSystem.geometry.attributes.position.needsUpdate = true;
-                    particleSystem.rotation.y = scrollY * 0.0005;
-
+                    
+                    // Update connecting lines
                     const linePositions = [];
                     for (let i = 0; i < particleCount; i++) {
                         for (let j = i + 1; j < particleCount; j++) {
@@ -513,166 +724,247 @@
                             const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
                             const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
                             const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                            if (distance < 15) {
-                                linePositions.push(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
-                                linePositions.push(positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]);
+                            if (distance < 5) {
+                                linePositions.push(
+                                    positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2],
+                                    positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]
+                                );
                             }
                         }
                     }
                     lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-                    lineGeometry.attributes.position.needsUpdate = true;
+                    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+                    scene.remove(scene.getObjectByName('lines'));
+                    lines.name = 'lines';
+                    scene.add(lines);
 
+                    particleSystem.rotation.y += 0.001;
                     renderer.render(scene, camera);
-                }
-                animate();
-            } else if (type === 'snow') {
-                const snowCount = 300;
-                const particles = new THREE.BufferGeometry();
-                const positions = new Float32Array(snowCount * 3);
-                const velocities = new Float32Array(snowCount * 3);
-
-                for (let i = 0; i < snowCount; i++) {
-                    positions[i * 3] = (Math.random() - 0.5) * 120;
-                    positions[i * 3 + 1] = Math.random() * 60;
-                    positions[i * 3 + 2] = (Math.random() - 0.5) * 120;
-                    velocities[i * 3] = (Math.random() - 0.5) * 0.03;
-                    velocities[i * 3 + 1] = -Math.random() * 0.15 - 0.05;
-                    velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.03;
-                }
-
-                particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                const snowMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.6, transparent: true, opacity: 0.8 });
-                snowSystem = new THREE.Points(particles, snowMaterial);
-                scene.add(snowSystem);
-
-                camera.position.z = 60;
-
-                function animate() {
-                    requestAnimationFrame(animate);
-                    const positions = snowSystem.geometry.attributes.position.array;
-
-                    for (let i = 0; i < snowCount * 3; i += 3) {
-                        positions[i] += velocities[i];
-                        positions[i + 1] += velocities[i + 1];
-                        positions[i + 2] += velocities[i + 2];
-
-                        if (positions[i + 1] < -30) {
-                            positions[i + 1] = 60;
-                            positions[i] = (Math.random() - 0.5) * 120;
-                            positions[i + 2] = (Math.random() - 0.5) * 120;
-                        }
-                    }
-                    snowSystem.geometry.attributes.position.needsUpdate = true;
-                    renderer.render(scene, camera);
-                }
-                animate();
-            } else if (type === 'contact-animation') {
-                const particleCount = 50;
-                const particles = new THREE.BufferGeometry();
-                const positions = new Float32Array(particleCount * 3);
-                const velocities = new Float32Array(particleCount * 3);
-                const rotations = new Float32Array(particleCount);
-
-                // Create envelope-like shapes using small planes
-                for (let i = 0; i < particleCount; i++) {
-                    positions[i * 3] = (Math.random() - 0.5) * 60;
-                    positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
-                    positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
-                    velocities[i * 3] = (Math.random() - 0.5) * 0.02;
-                    velocities[i * 3 + 1] = Math.random() * 0.05 + 0.02;
-                    velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.02;
-                    rotations[i] = Math.random() * Math.PI * 2;
-                }
-
-                particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                const geometry = new THREE.PlaneGeometry(2, 1.5);
-                const material = new THREE.MeshBasicMaterial({ 
-                    color: 0xffffff, 
-                    transparent: true, 
-                    opacity: 0.6, 
-                    side: THREE.DoubleSide 
-                });
-
-                const envelopes = [];
-                for (let i = 0; i < particleCount; i++) {
-                    const envelope = new THREE.Mesh(geometry, material);
-                    envelope.position.set(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
-                    envelope.rotation.z = rotations[i];
-                    scene.add(envelope);
-                    envelopes.push(envelope);
-                }
-
-                camera.position.z = 50;
-
-                function animate() {
-                    requestAnimationFrame(animate);
-                    for (let i = 0; i < particleCount; i++) {
-                        const envelope = envelopes[i];
-                        envelope.position.x += velocities[i * 3];
-                        envelope.position.y += velocities[i * 3 + 1];
-                        envelope.position.z += velocities[i * 3 + 2];
-                        envelope.rotation.z += 0.02;
-
-                        if (envelope.position.y > 30) {
-                            envelope.position.y = -30;
-                            envelope.position.x = (Math.random() - 0.5) * 60;
-                            envelope.position.z = (Math.random() - 0.5) * 60;
-                        }
-                        if (Math.abs(envelope.position.x) > 30) velocities[i * 3] *= -1;
-                        if (Math.abs(envelope.position.z) > 30) velocities[i * 3 + 2] *= -1;
-                    }
-                    renderer.render(scene, camera);
-                }
+                };
+                
+                camera.position.z = 30;
                 animate();
             }
+            else if (type === 'grid') {
+                const gridSize = 20;
+                const gridDivisions = 10;
+                const gridHelper = new THREE.GridHelper(gridSize, gridDivisions, 0x444444, 0x222222);
+                scene.add(gridHelper);
+                
+                const cubeCount = 15;
+                const cubes = [];
+                
+                for (let i = 0; i < cubeCount; i++) {
+                    const size = Math.random() * 0.5 + 0.1;
+                    const geometry = new THREE.BoxGeometry(size, size, size);
+                    const material = new THREE.MeshBasicMaterial({
+                        color: 0xffffff,
+                        transparent: true,
+                        opacity: 0.2,
+                        wireframe: true
+                    });
+                    const cube = new THREE.Mesh(geometry, material);
+                    
+                    cube.position.x = (Math.random() - 0.5) * gridSize;
+                    cube.position.y = (Math.random() - 0.5) * gridSize / 2;
+                    cube.position.z = (Math.random() - 0.5) * gridSize;
+                    
+                    cube.userData = {
+                        rotateX: (Math.random() - 0.5) * 0.01,
+                        rotateY: (Math.random() - 0.5) * 0.01,
+                        rotateZ: (Math.random() - 0.5) * 0.01,
+                        floatSpeed: Math.random() * 0.01,
+                        floatHeight: Math.random() * 2
+                    };
+                    
+                    scene.add(cube);
+                    cubes.push(cube);
+                }
+                
+                camera.position.z = 10;
+                camera.position.y = 5;
+                camera.rotation.x = -0.3;
+                
+                const animate = function() {
+                    requestAnimationFrame(animate);
+                    
+                    cubes.forEach(cube => {
+                        cube.rotation.x += cube.userData.rotateX;
+                        cube.rotation.y += cube.userData.rotateY;
+                        cube.rotation.z += cube.userData.rotateZ;
+                        cube.position.y += Math.sin(Date.now() * cube.userData.floatSpeed) * 0.01;
+                    });
+                    
+                    gridHelper.rotation.y += 0.001;
+                    
+                    renderer.render(scene, camera);
+                };
+                
+                animate();
+            }
+            else if (type === 'waves') {
+                const waveGeometry = new THREE.PlaneGeometry(100, 100, 50, 50);
+                const waveMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x3366ff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.2
+                });
+                const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+                scene.add(waveMesh);
+                
+                waveMesh.rotation.x = -Math.PI / 2;
+                waveMesh.position.y = -5;
+                
+                camera.position.z = 30;
+                camera.position.y = 10;
+                
+                const animate = function() {
+                    requestAnimationFrame(animate);
+                    
+                    const positions = waveGeometry.attributes.position.array;
+                    const time = Date.now() * 0.001;
+                    
+                    for (let i = 0; i < positions.length; i += 3) {
+                        const x = waveGeometry.attributes.position.getX(i / 3);
+                        const z = waveGeometry.attributes.position.getZ(i / 3);
+                        
+                        positions[i + 1] = Math.sin(x / 5 + time) * Math.cos(z / 5 + time) * 2;
+                    }
+                    
+                    waveGeometry.attributes.position.needsUpdate = true;
+                    
+                    renderer.render(scene, camera);
+                };
+                
+                animate();
+            }
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                const height = containerId === 'threejs-canvas' ? window.innerHeight : container.offsetHeight;
+                camera.aspect = window.innerWidth / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, height);
+            });
+
+            return renderer;
+        }
+
+        // Create subtle snowing effect across the entire site
+        function createSnowEffect() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            renderer.domElement.style.position = 'fixed';
+            renderer.domElement.style.top = '0';
+            renderer.domElement.style.left = '0';
+            renderer.domElement.style.zIndex = '-1';
+            renderer.domElement.style.pointerEvents = 'none';
+
+            const snowCount = 300; // Increased from 100 to 300
+            const snowGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(snowCount * 3);
+            const velocities = new Float32Array(snowCount * 3);
+
+            for (let i = 0; i < snowCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 100;     // x
+                positions[i * 3 + 1] = Math.random() * 50;         // y (start from top)
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 100; // z
+                velocities[i * 3] = (Math.random() - 0.5) * 0.01;   // Very slow movement
+                velocities[i * 3 + 1] = -0.05;                     // Increased speed from -0.02 to -0.05
+                velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.01;
+            }
+
+            snowGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const snowMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.2,
+                transparent: true,
+                opacity: 0.5
+            });
+            const snowSystem = new THREE.Points(snowGeometry, snowMaterial);
+            scene.add(snowSystem);
+
+            camera.position.z = 30;
+
+            const animate = function() {
+                requestAnimationFrame(animate);
+
+                const positions = snowSystem.geometry.attributes.position.array;
+
+                for (let i = 0; i < snowCount; i++) {
+                    positions[i * 3] += velocities[i * 3];
+                    positions[i * 3 + 1] += velocities[i * 3 + 1];
+                    positions[i * 3 + 2] += velocities[i * 3 + 2];
+
+                    // Reset snowflake to top when it falls below view
+                    if (positions[i * 3 + 1] < -25) {
+                        positions[i * 3 + 1] = 25;
+                        positions[i * 3] = (Math.random() - 0.5) * 100;
+                        positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
+                    }
+                }
+
+                snowSystem.geometry.attributes.position.needsUpdate = true;
+                renderer.render(scene, camera);
+            };
+
+            animate();
 
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, containerId === 'threejs-canvas' ? window.innerHeight : container.offsetHeight);
+                renderer.setSize(window.innerWidth, window.innerHeight);
             });
         }
 
-        createThreeScene('threejs-canvas', 'particles');
-        createThreeScene('details-canvas', 'snow');
-        createThreeScene('cta-canvas', 'contact-animation');
+        // Create Three.js scenes for different sections
+        window.addEventListener('load', () => {
+            createThreeScene('threejs-canvas', 'helix-stars');
+            createThreeScene('details-canvas', 'grid');
+            createThreeScene('cta-canvas', 'waves');
+            createSnowEffect(); // Add snow effect across the site
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.3
+        };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.querySelectorAll('.in-viewable').forEach((el, index) => {
-                        setTimeout(() => el.classList.add('in-view'), index * 200);
-                    });
-                } else {
-                    entry.target.querySelectorAll('.in-viewable').forEach(el => el.classList.remove('in-view'));
+                    entry.target.classList.add('in-view');
                 }
             });
-        }, { threshold: 0.2 });
+        }, observerOptions);
 
-        document.querySelectorAll('.section, #hero').forEach(el => {
-            el.querySelectorAll('h1, h2, p, .timeline-item, .contact-box').forEach(child => child.classList.add('in-viewable'));
+        // Observe elements to animate
+        document.querySelectorAll('#hero h1, #hero p, h2, .timeline, .timeline-item, #cta .value-proposition, #cta .contact-details p, .journey-step').forEach(el => {
             observer.observe(el);
         });
 
-        let lastScroll = 0;
+        // Handle header visibility on scroll
+        let lastScrollTop = 0;
+        const header = document.querySelector('header');
+        
         window.addEventListener('scroll', () => {
-            const currentScroll = window.scrollY;
-            const header = document.querySelector('header');
-            if (currentScroll > lastScroll && currentScroll > 100) {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
                 header.classList.remove('visible');
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
                 header.classList.add('visible');
             }
-            lastScroll = currentScroll;
-        });
-
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            document.querySelectorAll('[id$="-canvas"]').forEach(canvas => {
-                canvas.style.transform = `translateY(${scrollY * 0.1}px)`;
-            });
+            
+            lastScrollTop = scrollTop;
         });
     </script>
 </body>
